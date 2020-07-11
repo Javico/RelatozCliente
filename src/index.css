@@ -1,13 +1,26 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.tituloPage {
+    font-size: 23pt;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.AdminLogin{
+    font-size: 15pt;
 }
+
+.MenuItem{
+    font-size: 15pt;
+}
+
+.ContainerBody{
+    background-color: black;   
+}
+
+html{
+    background-color: black;
+}
+
+.imagenGhosty{
+    height: 35px;
+    margin-top: -15px;;
+}
+
+
