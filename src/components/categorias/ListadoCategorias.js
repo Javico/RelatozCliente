@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -10,7 +10,12 @@ export default function ListadoCategorias() {
 
     // Extraer proyectos de state inicial
     const categoriasContext = useContext(CategoriaContext);
-    const { categorias } = categoriasContext;
+    const { categorias, obtenerCategorias } = categoriasContext;
+
+    useEffect(() => {
+        obtenerCategorias();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
         <div>
@@ -19,14 +24,17 @@ export default function ListadoCategorias() {
                     {
                         categorias.map((categoria, index) => {
                             return (
-                                <Card style={{ width: '18rem' }} bg="dark" text="white" className="card-custom mx-2 mb-3">
+                                <Card key={index} style={{ width: '18rem' }} bg="dark" text="white" className="card-custom mx-2 mb-3">
                                     <Card.Img variant="top" src={require('../../imagenes/HauntedHouse1.jpg')} />
                                     <Card.Body>
                                         <Card.Title>{categoria.titulo}</Card.Title>
                                         <Card.Text>
-                                            Historias sobre casas embrujadas
+                                            {categoria.descripcion}
                                         </Card.Text>
-                                        <Button variant="secondary" href="/ListadoHistorias" >Entrar</Button>
+                                        <Button 
+                                            variant="secondary" 
+                                            href={`/ListadoHistorias/${categoria._id}`}
+                                        >Entrar</Button>
                                     </Card.Body>
                                 </Card>
                             )
