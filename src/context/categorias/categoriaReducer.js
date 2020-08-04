@@ -3,6 +3,7 @@ import {
     OBTENER_CATEGORIAS,
     AGREGAR_CATEGORIA,
     VALIDAR_FORMULARIO,
+ //   NUMERO_HISTORIAS_CATEGORIA,
  //   CATEGORIA_ACTUAL,
  //   ELIMINAR_CATEGORIA,
  //   HISTORIAS_CATEGORIAS,
@@ -33,11 +34,6 @@ export default (state, action) => {
                 ...state,
                 mensaje: action.payload
             }
-        // case CATEGORIA_ACTUAL:
-        //     return {
-        //         ...state,
-        //         categoriaActual: action.payload
-        //     }
         default:
             return state;
     }

@@ -36,6 +36,8 @@ export default function HistoriaState(props) {
 
     const agregarHistoria = async (historia) => {
         try{
+            // console.log(historia);
+            // console.log("agregando hsitoria");
             const resultados = await clienteAxios.post('/api/historias',historia);
             console.log(resultados);
             dispatch({
@@ -60,6 +62,50 @@ export default function HistoriaState(props) {
         }
     }
 
+    const obtenerHistoriasTodas = async () => {
+        try{
+            //console.log("todas")
+            const resultados = await clienteAxios.get(`/api/historias/`);
+            dispatch({
+                type: OBTENER_HISTORIAS,
+                payload: resultados.data.historias
+            })
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    const actualizarHistoria = async (historia) => {
+        try{
+            //console.log("actualizando historia");
+            //console.log(historia);
+            await clienteAxios.put('/api/historias/'+ historia._id, historia);
+            obtenerHistoriasTodas();
+            //console.log(resultado);
+            // dispatch({
+            //     type: AGREGAR_HISTORIA,
+            //     payload: resultado.data
+            // });
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    const eliminarHistoria = async (id) => {
+        try{
+            //console.log("actualizando categoria");
+            //console.log(categoria);
+            await clienteAxios.delete('/api/historias/'+ id);
+            obtenerHistoriasTodas();
+            // dispatch({
+            //     type: AGREGAR_HISTORIA,
+            //     payload: resultado.data
+            // });
+        }catch(error){
+            console.log(error);
+        }
+    }
+
 
     return (
         <historiaContext.Provider
@@ -69,7 +115,10 @@ export default function HistoriaState(props) {
                 mensaje: state.mensaje,
                 mostrarError,
                 agregarHistoria,
-                obtenerHistorias
+                obtenerHistorias,
+                eliminarHistoria,
+                actualizarHistoria,
+                obtenerHistoriasTodas
             }}
         >
             {props.children}

@@ -13,6 +13,8 @@ export default function Barra() {
                 <Nav className="mr-auto">
                      <Nav.Link href="/"><label className="MenuItem">Inicio</label></Nav.Link>
                      <Nav.Link href="/ListadoCategorias"><label className="MenuItem">Categorías</label></Nav.Link>
+                     <Nav.Link href="/GridCategorias"><label className="MenuItem">AdminCategorías</label></Nav.Link>
+                     <Nav.Link href="/GridHistorias"><label className="MenuItem">AdminHistorias</label></Nav.Link>
                     {/*<Nav.Link href="#pricing">menu 2</Nav.Link>
                     <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
                         <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>

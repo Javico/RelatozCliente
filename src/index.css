@@ -23,4 +23,11 @@ html{
     margin-top: -15px;;
 }
 
+.my-modal .modal-content {
+    background-color: #343a40;
+}
+
+.modal-backdrop {
+    background-color: #343a40;
+}
 

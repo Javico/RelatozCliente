@@ -6,6 +6,7 @@ import {
     OBTENER_CATEGORIAS,
     AGREGAR_CATEGORIA,
     VALIDAR_FORMULARIO,
+ //   NUMERO_HISTORIAS_CATEGORIA,
  //   CATEGORIA_ACTUAL,
  //   CATEGORIA_ACTUAL,
  //   ELIMINAR_CATEGORIA,
@@ -41,8 +42,7 @@ export default function CategoriaState(props) {
         //formulario: false,
         errorFormulario: false,
         //categoria: null,
-        mensaje: null,
-        categoriaActual: null
+        mensaje: null
     }
 
     //dispatch para ejecutar las acciones
@@ -66,13 +66,44 @@ export default function CategoriaState(props) {
 
     const agregarCategoria = async (categoria) => {
         try{
-            console.log("agregando categoria");
+            //console.log("agregando categoria");
             const resultado = await clienteAxios.post('/api/categorias', categoria);
             //console.log(resultado);
             dispatch({
                 type: AGREGAR_CATEGORIA,
                 payload: resultado.data
             });
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    const actualizarCategoria = async (categoria) => {
+        try{
+            //console.log("actualizando categoria");
+            //console.log(categoria);
+            await clienteAxios.put('/api/categorias/'+ categoria._id, categoria);
+            obtenerCategorias();
+            // console.log(resultado);
+            // dispatch({
+            //     type: AGREGAR_CATEGORIA,
+            //     payload: resultado.data
+            // });
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    const eliminarCategoria = async (id) => {
+        try{
+            //console.log("actualizando categoria");
+            //console.log(categoria);
+            await clienteAxios.delete('/api/categorias/'+ id);
+            obtenerCategorias();
+            // dispatch({
+            //     type: AGREGAR_CATEGORIA,
+            //     payload: resultado.data
+            // });
         }catch(error){
             console.log(error);
         }
@@ -103,7 +134,9 @@ export default function CategoriaState(props) {
                 categoriaActual: state.categoriaActual,
                 obtenerCategorias,
                 agregarCategoria,
-                mostrarError
+                mostrarError,
+                actualizarCategoria,
+                eliminarCategoria
                 //obtenerCategoriaActual
             }}
         >

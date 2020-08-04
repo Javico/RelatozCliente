@@ -1,33 +1,96 @@
-import React, { Fragment } from 'react';
-import Jumbotron from 'react-bootstrap/Jumbotron';
-import Container from 'react-bootstrap/Container';
+import React, { Fragment, useState, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+import Table from 'react-bootstrap/Table';
+import Modal from 'react-bootstrap/Modal';
+import NuevaHistoria from '../historias/NuevaHistoria';
+import HistoriaContext from '../../context/historias/historiaContext';
 
-export default function Historia() {
+export default function Historia({ posts, loading }) {
+
+    // Obtener el state del formulario
+    const historiasContext = useContext(HistoriaContext);
+    const { eliminarHistoria } = historiasContext;
+
+    const [show, setShow] = useState(false);
+    const [historia, setHistoria] = useState({
+        _id: '',
+        titulo: '',
+        descripcion: '',
+        historiaDetalle: ''
+    });
+
+    function cambiaEdita(valor, objeto) {
+        setShow(valor);
+        setHistoria(objeto);
+    }
+
+    function cambiaNuevo(valor) {
+        setShow(valor);
+        setHistoria({
+            _id: '',
+            titulo: '',
+            descripcion: '',
+            historiaDetalle: ''
+        });
+    }
+
+    function cambiaElimina(id) {
+        eliminarHistoria(id);
+    }
+
+    function cierraVentana(valor) {
+        setShow(valor);
+    }
+
+    if (loading) {
+        return <h1>loading</h1>
+    }
+
     return (
         <Fragment>
-            <Container>
-                <Row xs={3} md={5} lg={7}>
-                    <Col><Button variant="secondary" href="/ListadoHistorias" >Regresar a historias</Button></Col>
-                </Row>
-            </Container>
-            <br />
-            <Container>
-                <Jumbotron>
-                    <Container>
-                        <h4>La casa emrbujada 1</h4>
-                        <p>
-                            La Llorona es un espectro del folclore hispanoamericano que, según la tradición oral, es el alma en pena de una mujer que ahogó a sus hijos, y que luego, arrepentida y maldecida, los busca por las noches por ríos, pueblos y ciudades, asustando con su sobrecogedor llanto a quienes la ven u oyen. Su leyenda posee gran diversidad de versiones, con generalidades y particularismos propios de muchas regiones geográficas. A pesar de ello, su relato mágico y sobrenatural, emergido de múltiples orígenes, es constante y reconocible, con añadidos, texturizaciones e hibridaciones de muy diversos tipos.
-
-                            La leyenda de la Llorona es antigua, tiene orígenes prehispánicos, en la forma de diversos personajes con características similares, presentes en las cosmogonías y creencias ancestrales de los pueblos autóctonos de América, transmitidos de forma oral de generación en generación, hallándose relatos comunes pero con diversas imágenes, emblemas y símbolos, lo que le da a la leyenda una rica diversidad cultural. Durante la época colonial, las generalidades de la leyenda tomaron forma, y a través del tiempo, la leyenda de la Llorona se ha convertido en parte del imaginario colectivo de Hispanoamérica, trascendiendo fronteras y volviéndose parte de la identidad cultural, el folclor y la imaginería popular de muchos países. En la actualidad, la leyenda continúa siendo muy popular desde México hasta Chile, así como en los estados del sur de los Estados Unidos con mayor población de habla hispana, como Arizona, Texas y Nuevo México. En el caso particular de México, el personaje de la Llorona es signo de identidad nacional y Patrimonio Cultural Intangible de la Ciudad de México.1
-
-                            La leyenda de la Llorona ha tenido muchas funciones: ha servido para espantar a los niños, a extraer el miedo a hombres y mujeres para que sean fieles a sus parejas, para evitar parricidios por parte de la madre, como parábola de la justicia divina, o como símbolo colectivo. A lo largo de la historia, la figura doliente de la Llorona, su trágica y eterna condena de vagar a través de los siglos sin poder hallar a sus hijos, ha inspirado gran cantidad de manifestaciones culturales, literatura, canciones de la lírica popular, obras de teatro, bibliografía y artes audiovisuales de cine y televisión.
-                    </p>
-                    </Container>
-                </Jumbotron>
-            </Container>
+            <div style={{ marginBottom: "15px" }}>
+                <Button variant="success" onClick={() => cambiaNuevo(true)} >Nueva historia</Button>
+            </div>
+            <Table responsive striped bordered hover variant="dark">
+                <thead>
+                    <tr>
+                        {/* <th>#</th> */}
+                        <th>Título</th>
+                        <th>Descripción</th>
+                        <th>Detalle</th>
+                        <th>-</th>
+                        <th>-</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {posts.map((post, index) => (
+                        <tr key={index}>
+                            {/* <td>{post._id}</td> */}
+                            <td>{post.titulo}</td>
+                            <td>{post.descripcion}</td>
+                            <td>{post.historiaDetalle}</td>
+                            <td><Button variant="primary" onClick={() => cambiaEdita(true, post)}>Editar</Button></td>
+                            <td><Button variant="danger" onClick={() => cambiaElimina(post._id)} >Eliminar</Button></td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
+            <Modal
+                show={show}
+                onHide={() => setShow(false)}
+                dialogClassName="modal-90w"
+                aria-labelledby="example-custom-modal-styling-title"
+                className="my-modal"
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="example-custom-modal-styling-title" style={{ color: "white" }}>
+                        Categoria
+                </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <NuevaHistoria obj={historia} cierraVentana={cierraVentana} />
+                </Modal.Body>
+            </Modal>
         </Fragment>
     )
 }

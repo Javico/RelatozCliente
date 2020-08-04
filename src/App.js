@@ -11,6 +11,8 @@ import ListadoHistorias from './components/historias/ListadoHistorias';
 import NuevaCategoria from './components/categorias/NuevaCategoria';
 import NuevaHistoria from './components/historias/NuevaHistoria';
 import Pagina404 from './components/errores/Pagina404';
+import GridCategorias from './components/categorias/GridCategorias';
+import GridHistorias from './components/historias/GridHistorias';
 //import Login from './components/auth/Login';
 
 
@@ -30,6 +32,8 @@ function App() {
               <Route exact path="/Historia" component={Historia} />
               <Route exact path="/NuevaCategoria" component={NuevaCategoria} />
               <Route exact path="/NuevaHistoria" component={NuevaHistoria} />
+              <Route exact path="/GridCategorias" component={GridCategorias} />
+              <Route exact path="/GridHistorias" component={GridHistorias} />
               <Route component={Pagina404} />
             </Switch>
           </Router>
