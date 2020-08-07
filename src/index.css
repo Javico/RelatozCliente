@@ -10,6 +10,10 @@
     font-size: 15pt;
 }
 
+a label{
+    cursor: pointer;
+}
+
 .ContainerBody{
     background-color: black;   
 }
