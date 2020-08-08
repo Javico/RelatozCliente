@@ -9,10 +9,10 @@ import AuthContext from '../../context/auth/authContext';
 export default function Barra(props) {
 
     const authContext = useContext(AuthContext);
-    const {authenticado, usuarioAuth} = authContext;
+    const {authenticado, usuarioAuth, cerrarSesion} = authContext;
 
     const logout = (e) => {
-        localStorage.removeItem("token");
+        cerrarSesion();
     }
 
     useEffect(() => {
