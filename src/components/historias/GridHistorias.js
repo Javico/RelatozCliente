@@ -7,7 +7,7 @@ export default function GridCategorias() {
 
     // Extraer contexto de state inicial
     const historiasContext = useContext(HistoriaContext);
-    const { historias, obtenerHistoriasTodas } = historiasContext;
+    const { historiasTodas, obtenerHistoriasTodas } = historiasContext;
 
     //const [posts, guardarPosts] = useState([]);
     const [loading, guardarLoading] = useState(false);
@@ -33,7 +33,7 @@ export default function GridCategorias() {
 
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPage = indexOfLastPost - postsPerPage;
-    const currentPosts = historias.slice(indexOfFirstPage,indexOfLastPost);
+    const currentPosts = historiasTodas.slice(indexOfFirstPage,indexOfLastPost);
 
     //console.log(posts.length);
     //console.log(currentPosts);
@@ -44,7 +44,7 @@ export default function GridCategorias() {
        <div>
            <Historia posts={currentPosts} loading={loading} />
            <br />
-           <Paginacion postsPerPage={postsPerPage} totalPosts={historias.length} paginate={paginate} />
+           <Paginacion postsPerPage={postsPerPage} totalPosts={historiasTodas.length} paginate={paginate} />
        </div>
     )
 }

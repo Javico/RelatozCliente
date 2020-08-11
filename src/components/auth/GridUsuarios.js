@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Categoria from './Categoria';
+import Usuario from './Usuario';
 import Paginacion from '../paginacion/Paginacion';
-import CategoriaContext from '../../context/categorias/categoriaContext';
+import authContext from '../../context/auth/authContext';
 
 export default function GridCategorias() {
 
     // Extraer proyectos de state inicial
-    const categoriasContext = useContext(CategoriaContext);
-    const { categoriasTodas, obtenerCategoriasTodas } = categoriasContext;
+    const authsContext = useContext(authContext);
+    const { usuarios, obtenerUsuarios } = authsContext;
 
     //const [posts, guardarPosts] = useState([]);
     const [loading, guardarLoading] = useState(false);
@@ -33,7 +33,7 @@ export default function GridCategorias() {
 
     useEffect(() => {
         //guardarPosts(categorias);
-        obtenerCategoriasTodas();
+        obtenerUsuarios();
         guardarLoading(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -42,15 +42,15 @@ export default function GridCategorias() {
 
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPage = indexOfLastPost - postsPerPage;
-    const currentPosts = categoriasTodas.slice(indexOfFirstPage,indexOfLastPost);
+    const currentPosts = usuarios.slice(indexOfFirstPage,indexOfLastPost);
 
     const paginate = (pageNumber) => gaurdarCurrentPage(pageNumber);
 
     return (
        <div>
-           <Categoria posts={currentPosts} loading={loading} />
+           <Usuario posts={currentPosts} loading={loading} />
            <br />
-           <Paginacion postsPerPage={postsPerPage} totalPosts={categoriasTodas.length} paginate={paginate} />
+           <Paginacion postsPerPage={postsPerPage} totalPosts={usuarios.length} paginate={paginate} />
        </div>
     )
 }

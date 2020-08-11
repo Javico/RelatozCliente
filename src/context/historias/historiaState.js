@@ -3,6 +3,7 @@ import historiaContext from '../historias/historiaContext';
 import historiaReducer from '../historias/historiaReducer';
 import{
     OBTENER_HISTORIAS,
+    OBTENER_HISTORIAS_TODAS,
     AGREGAR_HISTORIA,
     VALIDAR_FORMULARIO
 } from '../../types'
@@ -18,6 +19,7 @@ export default function HistoriaState(props) {
         //     { id: 4, titulo: 'El fantasma del cuarto', descripcion: 'algo algo algo' }
         // ]
         historias: [],
+        historiasTodas: [],
         errorFormulario: false,
         mensaje: null
     }
@@ -67,7 +69,7 @@ export default function HistoriaState(props) {
             //console.log("todas")
             const resultados = await clienteAxios.get(`/api/historias/`);
             dispatch({
-                type: OBTENER_HISTORIAS,
+                type: OBTENER_HISTORIAS_TODAS,
                 payload: resultados.data.historias
             })
         }catch(error){
@@ -78,10 +80,10 @@ export default function HistoriaState(props) {
     const actualizarHistoria = async (historia) => {
         try{
             //console.log("actualizando historia");
-            //console.log(historia);
-            await clienteAxios.put('/api/historias/'+ historia._id, historia);
+            console.log(historia);
+            const resultado = await clienteAxios.put('/api/historias/'+ historia._id, historia);
             obtenerHistoriasTodas();
-            //console.log(resultado);
+            console.log(resultado);
             // dispatch({
             //     type: AGREGAR_HISTORIA,
             //     payload: resultado.data
@@ -113,6 +115,7 @@ export default function HistoriaState(props) {
                 historias: state.historias,
                 errorFormulario: state.errorFormulario,
                 mensaje: state.mensaje,
+                historiasTodas: state.historiasTodas,
                 mostrarError,
                 agregarHistoria,
                 obtenerHistorias,

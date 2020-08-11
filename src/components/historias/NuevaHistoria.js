@@ -2,6 +2,9 @@ import React, { useState, useContext, useEffect } from 'react'
 import historiaContext from '../../context/historias/historiaContext';
 import categoriaContext from '../../context/categorias/categoriaContext';
 import Form from 'react-bootstrap/Form';
+import FormGroup from 'react-bootstrap/FormGroup';
+import FormControl from 'react-bootstrap/FormControl';
+import FormLabel from 'react-bootstrap/FormLabel';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 
@@ -9,17 +12,17 @@ const NuevaHistoria = ({ obj, cierraVentana }) => {
 
     // Obtener el state del formulario ctaegorias
     const categoriasContext = useContext(categoriaContext);
-    const { categorias, obtenerCategorias } = categoriasContext;
+    const { categoriasTodas , obtenerCategoriasTodas } = categoriasContext;
 
     // Obtener el state del formulario historias
     const historiasContext = useContext(historiaContext);
     const { errorFormulario, agregarHistoria, mostrarError, actualizarHistoria } = historiasContext;
 
     //Extraer info
-    const { titulo, descripcion, historiaDetalle, categoria, _id } = obj;
+    const { titulo, descripcion, historiaDetalle, categoria, _id, active } = obj;
 
     useEffect(() => {
-        obtenerCategorias();
+        obtenerCategoriasTodas();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -29,7 +32,8 @@ const NuevaHistoria = ({ obj, cierraVentana }) => {
         titulo: titulo,
         descripcion: descripcion,
         historiaDetalle: historiaDetalle,
-        categoria: categoria
+        categoria: categoria,
+        active: active
     });
 
     // //Extraer nombre
@@ -41,6 +45,14 @@ const NuevaHistoria = ({ obj, cierraVentana }) => {
             ...historia,
             [e.target.name]: e.target.value
         });
+    }
+
+    const onCheckBox = (e) => {
+        //console.log(e.target.checked);
+        guardarHistoria({
+            ...historia,
+            active : e.target.checked
+        })
     }
 
     // Cuando el usuario envia un proyecto
@@ -108,7 +120,7 @@ const NuevaHistoria = ({ obj, cierraVentana }) => {
                     <Form.Control as="select" name="categoria" value={historia.categoria} onChange={onChangeHistoria}>
                         <option value="">-- Selecciona categoria --</option>
                         {
-                            categorias.map((categoria, index) => {
+                            categoriasTodas.map((categoria, index) => {
                                 return (
                                     <option key={categoria._id} value={categoria._id}>{categoria.titulo}</option>
                                 )
@@ -131,6 +143,16 @@ const NuevaHistoria = ({ obj, cierraVentana }) => {
                     <Form.Label>Historia</Form.Label>
                     <Form.Control required as="textarea" rows="6" name="historiaDetalle" defaultValue={historiaDetalle} onChange={onChangeHistoria} placeholder="Historia" />
                 </Form.Group>
+
+                <FormGroup controlId="active" >
+                    <FormLabel>Activo</FormLabel>
+                    <FormControl
+                        defaultChecked={active ? true : false}
+                        name="active"
+                        onChange={onCheckBox}
+                        type="checkbox"
+                    />
+                </FormGroup>
                 {_id ?
                     <Button variant="success" type="submit">
                         Actualizar

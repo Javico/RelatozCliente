@@ -16,11 +16,13 @@ export default function Barra(props) {
     }
 
     useEffect(() => {
-        if(authenticado){
+        //if(authenticado){
             usuarioAuth();
-        }
+        //}
          // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [authenticado])
+    }, [])
+
+    //console.log(authenticado);
 
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" sticky="top">
@@ -39,6 +41,7 @@ export default function Barra(props) {
                             <NavDropdown title="Admin" id="collasible-nav-dropdown" className="MenuItem">
                                 <NavDropdown.Item href="/GridCategorias" className="MenuItem">AdminCategorías</NavDropdown.Item>
                                 <NavDropdown.Item href="/GridHistorias" className="MenuItem">AdminHistorias</NavDropdown.Item>
+                                <NavDropdown.Item href="/GridUsuarios" className="MenuItem">AdminUsuarios</NavDropdown.Item>
                             </NavDropdown>
                         : 
                         null

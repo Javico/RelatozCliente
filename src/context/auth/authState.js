@@ -9,7 +9,8 @@ import {
     OBTENER_USUARIO,
     LOGIN_EXITOSO,
     LOGIN_ERROR,
-    CERRAR_SESION
+    CERRAR_SESION,
+    OBTENER_USUARIOS
 } from "../../types";
 import tokenAuth from '../../config/tokenAuth';
 
@@ -19,7 +20,8 @@ const AuthState = props => {
         authenticado: null,
         usuario: null,
         mensaje: null,
-        cargando: true
+        cargando: true,
+        usuarios: []
     }
 
     const [state, dispatch] = useReducer(AuthReducer, initialState);
@@ -27,7 +29,7 @@ const AuthState = props => {
     //Funciones
 
     // Crear usuario
-    const registrarUsuario = async datos => {
+    const registrarUsuario = async (datos) => {
         try {
             const respuesta = await clienteAxios.post('/api/usuarios',datos);
             //console.log(respuesta.data);
@@ -36,9 +38,11 @@ const AuthState = props => {
                 type: REGISTRO_EXISTOSO,
                 payload: respuesta.data
             });
+
+            obtenerUsuarios();
             
             // Obtener usuario
-            usuarioAuth();
+            //usuarioAuth();
         } catch (error) {
             console.log(error.response.data.msg);
 
@@ -110,6 +114,53 @@ const AuthState = props => {
         })
     }
 
+    // Actualizar información del usuario
+    const actualizarUsuario = async (usuario) => {
+        try{
+            //console.log("actualizando categoria");
+            //console.log(categoria);
+            await clienteAxios.put('/api/usuarios/'+ usuario._id, usuario);
+            obtenerUsuarios();
+            // console.log(resultado);
+            // dispatch({
+            //     type: AGREGAR_CATEGORIA,
+            //     payload: resultado.data
+            // });
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    // Eliminar usuario
+    const eliminarUsuario = async (id) => {
+        try{
+            //console.log("actualizando categoria");
+            //console.log(categoria);
+            await clienteAxios.delete('/api/usuarios/'+ id);
+            obtenerUsuarios();
+            // dispatch({
+            //     type: AGREGAR_CATEGORIA,
+            //     payload: resultado.data
+            // });
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    // Obtener usuarios
+    const obtenerUsuarios = async () => {
+        try{
+            const resultado = await clienteAxios.get('/api/usuarios');
+            //console.log(resultado);
+            dispatch({
+                type: OBTENER_USUARIOS,
+                payload: resultado.data.usuarios
+            });
+        }catch(error){
+            console.log(error);
+        }
+    }
+
     return (
         <AuthContext.Provider
             value={{
@@ -118,10 +169,14 @@ const AuthState = props => {
                 usuario: state.usuario,
                 mensaje: state.mensaje,
                 cargando: state.cargando,
+                usuarios: state.usuarios,
                 registrarUsuario,
                 inciarSesion,
                 usuarioAuth,
-                cerrarSesion
+                cerrarSesion,
+                eliminarUsuario,
+                obtenerUsuarios,
+                actualizarUsuario
             }}
         >
             {props.children}

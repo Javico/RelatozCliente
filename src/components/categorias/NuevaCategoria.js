@@ -1,23 +1,27 @@
 import React, { useState, useContext } from 'react'
 import categoriaContext from '../../context/categorias/categoriaContext';
 import Form from 'react-bootstrap/Form';
+import FormGroup from 'react-bootstrap/FormGroup';
+import FormControl from 'react-bootstrap/FormControl';
+import FormLabel from 'react-bootstrap/FormLabel';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 
-const NuevaCategoria = ({categoriaobj,cierraVentana}) => {
+const NuevaCategoria = ({objota,cierraVentana}) => {
 
     // Obtener el state del formulario
     const categoriasContext = useContext(categoriaContext);
     const { errorFormulario, agregarCategoria, mostrarError, actualizarCategoria } = categoriasContext;
 
     //Extraer info
-    const { titulo, descripcion, _id } = categoriaobj;
+    const { titulo, descripcion, _id, active } = objota;
 
     // State para categoria
     const [categoria, guardarCategoria] = useState({
         _id: _id,
         titulo: titulo,
-        descripcion: descripcion
+        descripcion: descripcion,
+        active: active
     });
 
     // Lee contenidos del input
@@ -26,6 +30,14 @@ const NuevaCategoria = ({categoriaobj,cierraVentana}) => {
             ...categoria,
             [e.target.name]: e.target.value
         });
+    }
+
+    const onCheckBox = (e) => {
+        //console.log(e.target.checked);
+        guardarCategoria({
+            ...categoria,
+            active : e.target.checked
+        })
     }
 
     // Cuando el usuario envia una categoria
@@ -44,7 +56,7 @@ const NuevaCategoria = ({categoriaobj,cierraVentana}) => {
 
         //console.group("sssok");
  
-        if(_id !== ''){
+        if(categoria._id !== ''){
             actualizarCategoria(categoria);
         }
         else{
@@ -55,7 +67,8 @@ const NuevaCategoria = ({categoriaobj,cierraVentana}) => {
         guardarCategoria({
             _id: '',
             titulo: '',
-            descripcion: ''
+            descripcion: '',
+            active: false
         });      
 
         cierraVentana(false);
@@ -94,6 +107,15 @@ const NuevaCategoria = ({categoriaobj,cierraVentana}) => {
                     <Form.Label>Descripción</Form.Label>
                     <Form.Control required as="textarea" rows="3" name="descripcion" defaultValue={descripcion} onChange={onChangeCategoria} placeholder="Descripción" />
                 </Form.Group>
+                <FormGroup controlId="active" >
+                    <FormLabel>Activo</FormLabel>
+                    <FormControl
+                        defaultChecked={active ? true : false}
+                        name="active"
+                        onChange={onCheckBox}
+                        type="checkbox"
+                    />
+                </FormGroup>
                 {_id ?
                     <Button variant="success" type="submit">
                         Actualizar
@@ -107,51 +129,6 @@ const NuevaCategoria = ({categoriaobj,cierraVentana}) => {
             </Form>
             {errorFormulario ? <p style={{color:"red"}}>Todos los campos son obligatorios</p> : null}
         </Container>
-
-        // <Fragment>
-        //     <button
-        //         type="button"
-        //         className="btn btn-block btn-primario"
-        //         onClick={onClickFormulario}
-        //     >Nueva Categoria</button>
-        //     {
-        //         formulario ?
-        //             <form
-        //                 className="formulario-nuevo-proyecto"
-        //                 onSubmit={onSubmitCategoria}
-        //             >
-        //                 <input
-        //                     type="text"
-        //                     autoFocus
-        //                     className="input-text"
-        //                     placeholder="Titulo categoria"
-        //                     name="titulo"
-        //                     value={titulo}
-        //                     onChange={onChangeCategoria}
-        //                 />
-        //                 <input
-        //                     type="text"
-        //                     autoFocus
-        //                     className="input-text"
-        //                     placeholder="Descripcion categoria"
-        //                     name="descripcion"
-        //                     value={descripcion}
-        //                     onChange={onChangeCategoria}
-        //                 />
-        //                 <input
-        //                     type="submit"
-        //                     className="btn btn-primario btn-block"
-        //                     value="Agregar categoria"
-        //                 />
-        //             </form>
-        //             :
-        //             null
-        //     }
-
-        //     {errorformulario ? <p className="mensaje error">El nombre de la categoria es obligatorio</p> : null}
-        // </Fragment>
-
-
 
     );
 }

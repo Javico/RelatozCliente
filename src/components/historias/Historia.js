@@ -1,22 +1,23 @@
-import React, { Fragment, useState, useContext } from 'react';
+import React, { Fragment, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import Modal from 'react-bootstrap/Modal';
 import NuevaHistoria from '../historias/NuevaHistoria';
-import HistoriaContext from '../../context/historias/historiaContext';
+//import HistoriaContext from '../../context/historias/historiaContext';
 
 export default function Historia({ posts, loading }) {
 
-    // Obtener el state del formulario
-    const historiasContext = useContext(HistoriaContext);
-    const { eliminarHistoria } = historiasContext;
+    // // Obtener el state del formulario
+    // const historiasContext = useContext(HistoriaContext);
+    // const { eliminarHistoria } = historiasContext;
 
     const [show, setShow] = useState(false);
     const [historia, setHistoria] = useState({
         _id: '',
         titulo: '',
         descripcion: '',
-        historiaDetalle: ''
+        historiaDetalle: '',
+        active: false
     });
 
     function cambiaEdita(valor, objeto) {
@@ -30,13 +31,14 @@ export default function Historia({ posts, loading }) {
             _id: '',
             titulo: '',
             descripcion: '',
-            historiaDetalle: ''
+            historiaDetalle: '',
+            active: false
         });
     }
 
-    function cambiaElimina(id) {
-        eliminarHistoria(id);
-    }
+    // function cambiaElimina(id) {
+    //     eliminarHistoria(id);
+    // }
 
     function cierraVentana(valor) {
         setShow(valor);
@@ -58,8 +60,9 @@ export default function Historia({ posts, loading }) {
                         <th>Título</th>
                         <th>Descripción</th>
                         <th>Detalle</th>
+                        <th>Active</th>
                         <th>-</th>
-                        <th>-</th>
+                        {/* <th>-</th> */}
                     </tr>
                 </thead>
                 <tbody>
@@ -69,8 +72,9 @@ export default function Historia({ posts, loading }) {
                             <td>{post.titulo}</td>
                             <td>{post.descripcion}</td>
                             <td>{post.historiaDetalle}</td>
+                            <td>{post.active.toString()}</td>
                             <td><Button variant="primary" onClick={() => cambiaEdita(true, post)}>Editar</Button></td>
-                            <td><Button variant="danger" onClick={() => cambiaElimina(post._id)} >Eliminar</Button></td>
+                            {/* <td><Button variant="danger" onClick={() => cambiaElimina(post._id)} >Eliminar</Button></td> */}
                         </tr>
                     ))}
                 </tbody>

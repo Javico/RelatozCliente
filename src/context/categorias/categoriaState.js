@@ -4,6 +4,7 @@ import categoriaReducer from '../categorias/categoriaReducer';
 import {
     //FORMULARIO_CATEGORIAS,
     OBTENER_CATEGORIAS,
+    OBTENER_CATEGORIAS_TODAS,
     AGREGAR_CATEGORIA,
     VALIDAR_FORMULARIO,
  //   NUMERO_HISTORIAS_CATEGORIA,
@@ -39,6 +40,7 @@ export default function CategoriaState(props) {
         //     { id: 7, titulo: 'Policias', descripcion: "algo 7" },
         // ]
         categorias: [],
+        categoriasTodas: [],
         //formulario: false,
         errorFormulario: false,
         //categoria: null,
@@ -83,7 +85,7 @@ export default function CategoriaState(props) {
             //console.log("actualizando categoria");
             //console.log(categoria);
             await clienteAxios.put('/api/categorias/'+ categoria._id, categoria);
-            obtenerCategorias();
+            obtenerCategoriasTodas();
             // console.log(resultado);
             // dispatch({
             //     type: AGREGAR_CATEGORIA,
@@ -99,7 +101,7 @@ export default function CategoriaState(props) {
             //console.log("actualizando categoria");
             //console.log(categoria);
             await clienteAxios.delete('/api/categorias/'+ id);
-            obtenerCategorias();
+            obtenerCategoriasTodas();
             // dispatch({
             //     type: AGREGAR_CATEGORIA,
             //     payload: resultado.data
@@ -122,6 +124,19 @@ export default function CategoriaState(props) {
         }
     }
 
+    const obtenerCategoriasTodas = async () => {
+        try{
+            const resultado = await clienteAxios.get('/api/categorias/all');
+            //console.log(resultado.data.categorias);
+            dispatch({
+                type: OBTENER_CATEGORIAS_TODAS,
+                payload: resultado.data.categorias
+            });
+        }catch(error){
+            console.log(error);
+        }
+    }
+
 
     return (
         <categoriaContext.Provider
@@ -132,11 +147,13 @@ export default function CategoriaState(props) {
                 //categoria: state.categoria,
                 mensaje: state.mensaje,
                 categoriaActual: state.categoriaActual,
+                categoriasTodas: state.categoriasTodas,
                 obtenerCategorias,
                 agregarCategoria,
                 mostrarError,
                 actualizarCategoria,
-                eliminarCategoria
+                eliminarCategoria,
+                obtenerCategoriasTodas
                 //obtenerCategoriaActual
             }}
         >

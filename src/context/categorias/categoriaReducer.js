@@ -1,6 +1,7 @@
 import {
     //FORMULARIO_CATEGORIAS,
     OBTENER_CATEGORIAS,
+    OBTENER_CATEGORIAS_TODAS,
     AGREGAR_CATEGORIA,
     VALIDAR_FORMULARIO,
  //   NUMERO_HISTORIAS_CATEGORIA,
@@ -15,7 +16,7 @@ export default (state, action) => {
         case AGREGAR_CATEGORIA:
             return{
                 ...state,
-                categorias: [...state.categorias, action.payload],
+                categoriasTodas: [...state.categoriasTodas, action.payload],
                 //formulario: false,
                 errorformulario: false
             }
@@ -28,6 +29,11 @@ export default (state, action) => {
             return{
                 ...state,
                 categorias: action.payload
+            }
+        case OBTENER_CATEGORIAS_TODAS:
+            return{
+                ...state,
+                categoriasTodas: action.payload
             }
         case CATEGORIA_ERROR:
             return {
