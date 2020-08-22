@@ -15,6 +15,7 @@ import {
  //   CATEGORIA_ERROR
 } from '../../types';
 import clienteAxios from '../../config/axios';
+import clienteAxiosCategoria from '../../config/axiosImageCategoria';
 
 //const CategoriaState = props => {
 export default function CategoriaState(props) {
@@ -69,6 +70,23 @@ export default function CategoriaState(props) {
     const agregarCategoria = async (categoria) => {
         try{
             //console.log("agregando categoria");
+            // console.log(categoria);
+            // console.log(categoria.archivo[0]);
+
+            const formData = new FormData();
+            formData.append('archivo',categoria.archivo[0]);
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            }
+
+            const resultadoImagen = await clienteAxiosCategoria.post('',formData,config);
+            // console.log(resultadoImagen);
+            // console.log(resultadoImagen.data);
+            categoria.url = resultadoImagen.data;
+            //console.log(categoria);
+
             const resultado = await clienteAxios.post('/api/categorias', categoria);
             //console.log(resultado);
             dispatch({
@@ -84,6 +102,18 @@ export default function CategoriaState(props) {
         try{
             //console.log("actualizando categoria");
             //console.log(categoria);
+
+            const formData = new FormData();
+            formData.append('archivo',categoria.archivo[0]);
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            }
+
+            const resultadoImagen = await clienteAxiosCategoria.post('',formData,config);
+            categoria.url = resultadoImagen.data;
+
             await clienteAxios.put('/api/categorias/'+ categoria._id, categoria);
             obtenerCategoriasTodas();
             // console.log(resultado);

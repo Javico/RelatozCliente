@@ -90,8 +90,9 @@ export default function Login(props) {
                 <Button block  disabled={!validateForm()} type="submit">
                     Login
                 </Button>
+                {alerta ? ( <div className={`alerta ${alerta.categoria}`}>{alerta.msg}</div>) : null}
             </form>
-            {alerta ? ( <div className={`alerta ${alerta.categoria}`}>{alerta.msg}</div>) : null}
+            
         </div>
     );
 }

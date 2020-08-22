@@ -34,7 +34,7 @@ export default function ListadoHistorias(categoria) {
                             //console.log(historia)
                             return (
                                 <Card key={index} style={{ width: '18rem' }} bg="dark" text="white" className="card-custom mx-2 mb-3">
-                                    <Card.Img variant="top" src={require('../../imagenes/HauntedHouse1.jpg')} />
+                                    {/* <Card.Img variant="top" src={require('../../imagenes/HauntedHouse1.jpg')} /> */}
                                     <Card.Body>
                                         <Card.Title>{historia.titulo}</Card.Title>
                                         <Card.Text>

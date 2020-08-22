@@ -21,7 +21,9 @@ const NuevaCategoria = ({objota,cierraVentana}) => {
         _id: _id,
         titulo: titulo,
         descripcion: descripcion,
-        active: active
+        active: active,
+        archivo: null,
+        url: ''
     });
 
     // Lee contenidos del input
@@ -37,6 +39,15 @@ const NuevaCategoria = ({objota,cierraVentana}) => {
         guardarCategoria({
             ...categoria,
             active : e.target.checked
+        })
+    }
+
+    // imagen archivo
+    const onChangeArchivo = (e) => {
+        //console.log(e.target.checked);
+        guardarCategoria({
+            ...categoria,
+            archivo : Array.from(e.target.files)
         })
     }
 
@@ -68,7 +79,9 @@ const NuevaCategoria = ({objota,cierraVentana}) => {
             _id: '',
             titulo: '',
             descripcion: '',
-            active: false
+            active: false,
+            archivo: null,
+            url: ''
         });      
 
         cierraVentana(false);
@@ -106,6 +119,9 @@ const NuevaCategoria = ({objota,cierraVentana}) => {
                 <Form.Group controlId="descripcionctrl">
                     <Form.Label>Descripción</Form.Label>
                     <Form.Control required as="textarea" rows="3" name="descripcion" defaultValue={descripcion} onChange={onChangeCategoria} placeholder="Descripción" />
+                </Form.Group>
+                <Form.Group controlId="archivoctrl">
+                    <Form.File id="archivo" name="archivo" label="Imagen" onChange={onChangeArchivo} />
                 </Form.Group>
                 <FormGroup controlId="active" >
                     <FormLabel>Activo</FormLabel>

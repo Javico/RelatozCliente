@@ -25,7 +25,17 @@ export default function ListadoCategorias() {
                         categorias.map((categoria, index) => {
                             return (
                                 <Card key={index} style={{ width: '18rem' }} bg="dark" text="white" className="card-custom mx-2 mb-3">
-                                    <Card.Img variant="top" src={require('../../imagenes/HauntedHouse1.jpg')} />
+                                    <Card.Img 
+                                        variant="top" 
+                                        style={{height : "15rem", width: "100%" , object_fit: "cover"}}
+                                        src={
+                                            categoria.urlImage ?
+                                            categoria.urlImage
+                                            :
+                                            require('../../imagenes/HauntedHouse1.jpg')
+                                        } 
+                                        
+                                    />
                                     <Card.Body>
                                         <Card.Title>{categoria.titulo}</Card.Title>
                                         <Card.Text>
