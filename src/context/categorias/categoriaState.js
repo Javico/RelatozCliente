@@ -73,19 +73,19 @@ export default function CategoriaState(props) {
             // console.log(categoria);
             // console.log(categoria.archivo[0]);
 
-            const formData = new FormData();
-            formData.append('archivo',categoria.archivo[0]);
-            const config = {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            }
+            let resultadoImagen;
 
-            const resultadoImagen = await clienteAxiosCategoria.post('',formData,config);
-            // console.log(resultadoImagen);
-            // console.log(resultadoImagen.data);
-            categoria.url = resultadoImagen.data;
-            //console.log(categoria);
+            if(categoria.archivo !== null){
+                const formData = new FormData();
+                formData.append('archivo',categoria.archivo[0]);
+                const config = {
+                    headers: {
+                        'content-type': 'multipart/form-data'
+                    }
+                }
+                resultadoImagen = await clienteAxiosCategoria.post('',formData,config);
+                categoria.url = resultadoImagen.data;
+            }
 
             const resultado = await clienteAxios.post('/api/categorias', categoria);
             //console.log(resultado);
@@ -103,16 +103,19 @@ export default function CategoriaState(props) {
             //console.log("actualizando categoria");
             //console.log(categoria);
 
-            const formData = new FormData();
-            formData.append('archivo',categoria.archivo[0]);
-            const config = {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            }
+            let resultadoImagen;
 
-            const resultadoImagen = await clienteAxiosCategoria.post('',formData,config);
-            categoria.url = resultadoImagen.data;
+            if(categoria.archivo !== null){
+                const formData = new FormData();
+                formData.append('archivo',categoria.archivo[0]);
+                const config = {
+                    headers: {
+                        'content-type': 'multipart/form-data'
+                    }
+                }
+                resultadoImagen = await clienteAxiosCategoria.post('',formData,config);
+                categoria.url = resultadoImagen.data;
+            }
 
             await clienteAxios.put('/api/categorias/'+ categoria._id, categoria);
             obtenerCategoriasTodas();
